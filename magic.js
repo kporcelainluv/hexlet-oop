@@ -6,11 +6,13 @@
 // Аргументами могут быть только числа.
 // Результат вызова этой функции при проверке на равенство должен быть равен сумме всех аргументов всех подфункций.
 
+const getSum = (args) => args.reduce((acc, elm) => acc+ elm, 0)
+
 const magic = (...args) => {
-    const inner = (...args2) => magic(...args2);
-    const checker = (args) => args.reduce((acc, elm) => acc+elm, 0);
-    inner.valueOf = (...args) => checker(...args) 
-    return inner
+    const sum1 = getSum(args);
+    const internal = (...args) => magic(sum1, ...args);
+    internal.valueOf = () => sum1
+    return internal
 }
 // console.log(magic(5, 2, 3, -8))
-console.log(magic(1, 2)(3, 4, 5)(6)(7, 10))
+console.log(magic(1, 2)(3, 4, 5)(6)(7, 10) == 38)
